@@ -99,3 +99,12 @@ def update_song(id):
         return {"message": "song found, but nothing updated"}, 200
 
     return parse_json(db.songs.find_one({"id": id})), 201
+
+@app.route("/song/<int:id>", methods=["DELETE"])
+def delete_song(id):
+    result = db.songs.delete_one({"id": id})
+
+    if result.deleted_count == 0:
+        return {"message": "song not found"}, 404
+
+    return "", 204
